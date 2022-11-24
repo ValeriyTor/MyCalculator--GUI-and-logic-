@@ -30,9 +30,16 @@ public class Calculator implements ActionListener {
     char operator;
 
     public Calculator() {
+//        super();
+
         frame = new JFrame("My Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(415,530);
+        Dimension frameDimension = new Dimension(415,530);
+//        Dimension frameDimensionMax = new Dimension(615,630);
+        frame.setSize(frameDimension);
+//        frame.setMaximumSize(frameDimensionMax);
+//        frame.setMinimumSize(frameDimension);
+        frame.setResizable(false);
         frame.setLayout(null); // посмотреть зачем нужен Layout
 
         textField = new JTextField();
@@ -72,7 +79,7 @@ public class Calculator implements ActionListener {
         for (int i = 0;i < functionButtons.length; i++){
             functionButtons[i].setFont(myFont);
             functionButtons[i].addActionListener(this);
-            numberButtons[i].setFocusable(false);
+            functionButtons[i].setFocusable(false);
         }
 
         panel = new JPanel();
@@ -122,9 +129,96 @@ public class Calculator implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         for(int i=0;i<10;i++) {
             if (e.getSource() == numberButtons[i]) {
-                textField.setText(textField.getText().concat(String.valueOf(i)));
+//               textField.setText(textField.getText().concat(String.valueOf(i))); // text = text + "i"
+                textField.setText(textField.getText() + i);
             }
         }
+//        if(e.getSource() == numberButtons[0]){
+//            textField.setText(textField.getText() + 0);
+//        }
+//        if(e.getSource() == numberButtons[1]){
+//            textField.setText(textField.getText() + 1);
+//        }
+
+        if(e.getSource() == negButton){
+//            double myDec = Double.parseDouble(textField.getText());
+//            myDec = myDec * (-1.0);
+//            textField.setText(String.valueOf(myDec));
+            if(textField.getText().length() != 0 && textField.getText().charAt(0) == '-'){
+                textField.setText(textField.getText().substring(1));
+            }
+            else {
+                textField.setText("-" + textField.getText());
+            }
+        }
+
+        if(e.getSource() == decButton && textField.getText().length() != 0 && !textField.getText().contains(".")){
+                textField.setText(textField.getText() + ".");
+        }
+
+        if(e.getSource() == addButton){
+            num1 = Double.parseDouble(textField.getText());
+            operator = '+';
+            textField.setText("");
+        }
+
+        if(e.getSource() == subButton){
+            num1 = Double.parseDouble(textField.getText());
+            operator = '-';
+            textField.setText("");
+        }
+
+        if(e.getSource() == mulButton){
+            num1 = Double.parseDouble(textField.getText());
+            operator = '*';
+            textField.setText("");
+        }
+
+        if(e.getSource() == divButton){
+            num1 = Double.parseDouble(textField.getText());
+            operator = '/';
+            textField.setText("");
+        }
+
+        if(e.getSource() == clrButton){
+            textField.setText("");
+        }
+
+        if (e.getSource() == delButton && textField.getText().length() != 0){
+            textField.setText(textField.getText().substring(0,textField.getText().length()-1));
+        }
+
+        if(e.getSource() == equButton){
+            num2 = Double.parseDouble(textField.getText());
+            switch (operator){
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    result = num1 / num2;
+                    break;
+            }
+            textField.setText(String.valueOf(result));
+            num1 = result;
+
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         }
     }
